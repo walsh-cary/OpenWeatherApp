@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,10 +34,11 @@ import com.walsh.openweather.ext.toKilometer
 import com.walsh.openweather.model.OpenWeatherResponseModel
 import com.walsh.openweather.viewmodel.UIState
 import com.walsh.openweather.viewmodel.WeatherViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun DisplayWeatherDetails(viewModel: WeatherViewModel) {
-    val uiState = viewModel.weatherResponseState.collectAsState().value
+fun DisplayWeatherDetails(viewModel: WeatherViewModel = koinViewModel()) {
+    val uiState by viewModel.weatherResponseState.collectAsState()
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         when (uiState) {
             is UIState.Loading -> {
@@ -44,7 +46,7 @@ fun DisplayWeatherDetails(viewModel: WeatherViewModel) {
             }
 
             is UIState.Success -> {
-                DisplaySearch(viewModel, uiState.data)
+                DisplaySearch(viewModel, (uiState as UIState.Success).data)
             }
 
             is UIState.Failure -> {
@@ -86,13 +88,13 @@ private fun DisplaySearch(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .background(Color.White)
+                    .background(Color.White),
             ) {
-                DisplaySuccess(weatherResponse = data)
+
             }
         }
     ) {
-
+        DisplaySuccess(weatherResponse = data, padding = it)
     }
 }
 
@@ -103,10 +105,12 @@ private fun DisplayError(error: String) {
 }
 
 @Composable
-private fun DisplaySuccess(weatherResponse: OpenWeatherResponseModel) {
+private fun DisplaySuccess(weatherResponse: OpenWeatherResponseModel, padding: PaddingValues) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = padding.calculateTopPadding())
     ) {
         Text(
             text = "City Name: ${weatherResponse.name} ",

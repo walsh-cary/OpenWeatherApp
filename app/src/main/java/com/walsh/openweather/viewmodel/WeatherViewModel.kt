@@ -1,7 +1,6 @@
 package com.walsh.openweather.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.walsh.openweather.repository.WeatherRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,18 +31,5 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
 
     fun updateSearchText(text: String) {
         _searchText.value = text
-    }
-
-    fun onToggleSearch() {
-        _isSearching.value = !_isSearching.value
-    }
-}
-
-class WeatherViewModelFactory(private val repository: WeatherRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
-            return WeatherViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
