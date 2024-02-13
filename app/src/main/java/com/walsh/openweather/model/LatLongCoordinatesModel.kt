@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class LatLongCoordinatesModel(
     @SerializedName("lat")
-    val lat: Float? = null,
+    val lat: Double? = null,
     @SerializedName("lon")
-    val long: Float? = null,
+    val long: Double? = null,
 )

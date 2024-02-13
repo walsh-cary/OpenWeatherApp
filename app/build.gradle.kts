@@ -45,6 +45,8 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
         }
     }
 }
@@ -59,7 +61,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
+    implementation("io.mockk:mockk:1.13.9")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
@@ -94,4 +96,9 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
     testImplementation("io.insert-koin:koin-test:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
+
+    //jUnit
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
 }
