@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -28,49 +27,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.walsh.openweather.data.OpenWeatherResponseModel
 import com.walsh.openweather.ext.toCelsius
 import com.walsh.openweather.ext.toFahrenheit
 import com.walsh.openweather.ext.toKilometer
-import com.walsh.openweather.model.OpenWeatherResponseModel
 import com.walsh.openweather.viewmodel.UIState
 import com.walsh.openweather.viewmodel.WeatherViewModel
 import org.koin.androidx.compose.koinViewModel
 
-@Composable
-fun DisplayWeatherDetails(viewModel: WeatherViewModel = koinViewModel()) {
-    val uiState by viewModel.weatherResponseState.collectAsState()
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        when (uiState) {
-            is UIState.Loading -> {
-                CircularProgressIndicator()
-            }
-
-            is UIState.Success -> {
-                DisplaySearch(viewModel, (uiState as UIState.Success).data)
-            }
-
-            is UIState.Failure -> {
-                DisplayError("Bad request. Please try again.")
-                viewModel.updateSearchText("Vero Beach")
-                viewModel.fetchWeatherDetails()
-            }
-
-            is UIState.Empty -> {
-                DisplayError("Unknown error. Please try again.")
-                viewModel.updateSearchText("Vero Beach")
-                viewModel.fetchWeatherDetails()
-            }
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun DisplaySearch(
-    viewModel: WeatherViewModel,
-    data: OpenWeatherResponseModel
-) {
+fun DisplayWeatherDetails(viewModel: WeatherViewModel = koinViewModel()) {
+    val uiState by viewModel.weatherResponseState.collectAsState()
     val searchText by viewModel.searchText.collectAsState()
     val isSearching by viewModel.isSearching.collectAsState()
     Scaffold(
@@ -94,7 +63,17 @@ private fun DisplaySearch(
             }
         }
     ) {
-        DisplaySuccess(weatherResponse = data, padding = it)
+        when (uiState) {
+            is UIState.Success -> {
+                DisplaySuccess(weatherResponse = (uiState as UIState.Success).data, padding = it)
+            }
+            UIState.Empty -> DisplayError(error = "Unknown Error")
+            is UIState.Failure -> DisplayError(error = "Error retrieving data")
+            is UIState.Loading -> CircularProgressIndicator(
+                Modifier.fillMaxSize()
+                    .padding(top = 120.dp, start = 32.dp)
+            )
+        }
     }
 }
 

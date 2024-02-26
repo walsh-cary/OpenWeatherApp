@@ -90,10 +90,10 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.5.0")
 
     //Koin
-    val koinVersion = "3.3.0"
+    val koinVersion = "3.3.2"
     implementation("io.insert-koin:koin-core:$koinVersion")
     implementation("io.insert-koin:koin-android:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:3.3.0")
     testImplementation("io.insert-koin:koin-test:$koinVersion")
     testImplementation("io.insert-koin:koin-test-junit5:$koinVersion")
 
@@ -101,4 +101,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("androidx.test:core:1.5.0")
+
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }

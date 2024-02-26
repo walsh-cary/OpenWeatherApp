@@ -1,4 +1,4 @@
-package com.walsh.openweather.model
+package com.walsh.openweather.data
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,6 +1,6 @@
 package com.walsh.openweather.network
 
-import com.walsh.openweather.model.OpenWeatherResponseModel
+import com.walsh.openweather.data.OpenWeatherResponseModel
 import com.walsh.openweather.network.NetworkConstants.API_ENDPOINT
 import com.walsh.openweather.network.NetworkConstants.API_KEY
 import retrofit2.Response

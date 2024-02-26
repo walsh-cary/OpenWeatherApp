@@ -1,6 +1,6 @@
 package com.walsh.openweather.viewmodel
 
-import com.walsh.openweather.model.OpenWeatherResponseModel
+import com.walsh.openweather.data.OpenWeatherResponseModel
 
 sealed class UIState {
     data class Success(val data: OpenWeatherResponseModel): UIState()
